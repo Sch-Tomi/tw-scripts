@@ -1,11 +1,11 @@
  // ==UserScript==
  // @name          	TribalWars Ultimate
  // @description     Bunch of scripts what will help you.
- // @icon            https://github.com/Sch-Tomi/tw-scripts/blob/master/images/icon.png?raw=true
+ // @icon            https://github.com/Sch-Tomi/tw-scripts/blob/master/tw-ultimate/assets/img/icon.png?raw=true
  //
  // @author			Schronk Tamás <me@sepehr.ws>
  // @namespace       https://github.com/Sch-Tomi
- // @downloadURL		https://github.com/Sch-Tomi/tw-scripts/raw/master/scripts/tw-ultimate/tw-ultimate.user.js
+ // @downloadURL		https://github.com/Sch-Tomi/tw-scripts/raw/master/tw-ultimate/tw-ultimate.user.js
  //
  // @license         GPLv3 - http://www.gnu.org/licenses/gpl-3.0.txt
  // @copyright       Copyright (C) 2012, by Sepehr Lajevardi <me@sepehr.ws>
@@ -14,8 +14,8 @@
  //
  // @require         https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js
  //
- // @version         1.0.1
- // @updateURL		https://github.com/Sch-Tomi/tw-scripts/raw/master/scripts/tw-ultimate/tw-ultimate.user.js
+ // @version         1.0.2
+ // @updateURL		https://github.com/Sch-Tomi/tw-scripts/raw/master/tw-ultimate/tw-ultimate.user.js
  // @run-at			document-start|document-end
  // @grant           GM_xmlhttpRequest
  // ==/UserScript==
@@ -58,7 +58,7 @@
          static
          import () {
              let link = `<link rel="stylesheet" href="https://cdn.jsdelivr.net/siimple/2.0/siimple.min.css">
-        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css" type="text/css" >`
+        <link rel="stylesheet" href="https://raw.githubusercontent.com/Sch-Tomi/tw-scripts/master/tw-ultimate/assets/css/flexboxgrid.min.css" type="text/css" >`
 
              $('head').append(link)
          }
