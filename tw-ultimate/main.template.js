@@ -14,7 +14,7 @@
 //
 // @require         https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js
 //
-// @version         1.0.2
+// @version         <%= version %>
 // @updateURL		https://github.com/Sch-Tomi/tw-scripts/raw/master/tw-ultimate/tw-ultimate.user.js
 // @run-at			document-start|document-end
 // @grant           GM_xmlhttpRequest

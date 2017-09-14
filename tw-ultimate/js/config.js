@@ -22,7 +22,6 @@ class Config {
         return getValue('config') !== null;
     }
 
-
     _install() {
         this.config.version = GM_info.script.version
 

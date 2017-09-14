@@ -21,7 +21,8 @@ module.exports = function (grunt) {
                     config: 'js/config.js',
                     starter: 'js/starter.js',
                     libs: 'build/libs.js',
-                    components: 'build/components.js'
+                    components: 'build/components.js',
+                    version: 'version'
                 },
                 dest: "tw-ultimate.user.js",
                 tmpl: "main.template.js"
