@@ -1,7 +1,7 @@
  // ==UserScript==
  // @name          	TribalWars Ultimate
  // @description     Bunch of scripts what will help you.
- // @icon            https://github.com/Sch-Tomi/tw-scripts/blob/master/tw-ultimate/assets/img/icon.png?raw=true
+ // @icon            https://raw.githubusercontent.com/Sch-Tomi/tw-scripts/master/tw-ultimate/assets/img/icon.png
  //
  // @author			Schronk Tamás <me@sepehr.ws>
  // @namespace       https://github.com/Sch-Tomi
