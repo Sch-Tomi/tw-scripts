@@ -7,8 +7,6 @@ class Config {
         } else {
             this._loadConfig();
         }
-
-        console.log(this.config)
     }
 
     getLinks() {

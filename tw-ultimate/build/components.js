@@ -28,7 +28,7 @@ class LinkBar {
     }
 
     _createBar() {
-        var toolBarCode = `<div id='ToolBar' class="row middle-md center-md" style='padding: 7px 0 7px 0px;margin: 0 0 10px 0;width: auto;' class='content-border'>   </div>`
+        var toolBarCode = `<div id='ToolBar' class="fbox-row middle-md center-md content-border" style='padding: 7px 0 7px 0px;margin: 0 0 10px 0;width: auto;' ></div>`
         $("#header_info").before(toolBarCode)
     }
 

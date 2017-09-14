@@ -14,7 +14,7 @@
  //
  // @require         https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js
  //
- // @version         1.0
+ // @version         1.0.1
  // @updateURL		https://github.com/Sch-Tomi/tw-scripts/raw/master/scripts/tw-ultimate/tw-ultimate.user.js
  // @run-at			document-start|document-end
  // @grant           GM_xmlhttpRequest
@@ -166,7 +166,7 @@
          }
 
          _createBar() {
-             var toolBarCode = `<div id='ToolBar' class="row middle-md center-md" style='padding: 7px 0 7px 0px;margin: 0 0 10px 0;width: auto;' class='content-border'>   </div>`
+             var toolBarCode = `<div id='ToolBar' class="fbox-row middle-md center-md content-border" style='padding: 7px 0 7px 0px;margin: 0 0 10px 0;width: auto;' ></div>`
              $("#header_info").before(toolBarCode)
          }
 
@@ -409,8 +409,6 @@
              } else {
                  this._loadConfig();
              }
-
-             console.log(this.config)
          }
 
          getLinks() {
