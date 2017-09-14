@@ -12,7 +12,9 @@ if (isLogged) {
         case 'info_player':
             new playerStats()
             break;
-
+        case 'map':
+            new PremiumMap()
+            break;
     }
 
     // Always run!!
