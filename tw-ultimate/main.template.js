@@ -5,7 +5,7 @@
 //
 // @author			Schronk Tamás <me@sepehr.ws>
 // @namespace       https://github.com/Sch-Tomi
-// @downloadURL		https://cdn.rawgit.com/Sch-Tomi/tw-scripts/raw/master/tw-ultimate/tw-ultimate.user.js
+// @downloadURL		https://cdn.rawgit.com/Sch-Tomi/tw-scripts/c67e4ba0/tw-ultimate/tw-ultimate.user.js
 //
 // @license         GPLv3 - http://www.gnu.org/licenses/gpl-3.0.txt
 // @copyright       Copyright (C) 2012, by Sepehr Lajevardi <me@sepehr.ws>
@@ -15,7 +15,7 @@
 // @require         https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js
 //
 // @version         <%= version %>
-// @updateURL		https://cdn.rawgit.com/Sch-Tomi/tw-scripts/raw/master/tw-ultimate/tw-ultimate.user.js
+// @updateURL		https://cdn.rawgit.com/Sch-Tomi/tw-scripts/c67e4ba0/tw-ultimate/tw-ultimate.user.js
 // @run-at			document-start|document-end
 // @grant           GM_xmlhttpRequest
 // ==/UserScript==
