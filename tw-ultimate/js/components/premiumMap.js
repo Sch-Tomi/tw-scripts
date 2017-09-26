@@ -1,6 +1,8 @@
 class PremiumMap {
 
-    constructor() {
+    constructor(mapConfig) {
+
+        this.config = mapConfig
 
         this._premiumMapPanel = `
         <tr>
@@ -19,7 +21,7 @@ class PremiumMap {
                     <option label="7x7" value="7">7x7</option>
                     <option label="9x9" value="9">9x9</option>
                     <option label="11x11" value="11">11x11</option>
-                    <option selected="selected" label="13x13" value="13">13x13</option>
+                    <option label="13x13" value="13">13x13</option>
                     <option label="15x15" value="15">15x15</option>
                     <option label="20x20" value="20">20x20</option>
                     <option label="30x30" value="30">30x30</option>
@@ -44,7 +46,7 @@ class PremiumMap {
                     <option label="90x90" value="90x90">90x90</option>
                     <option label="100x100" value="100x100">100x100</option>
                     <option label="110x110" value="110x110">110x110</option>
-                    <option selected="selected" label="120x120" value="120x120">120x120</option>
+                    <option label="120x120" value="120x120">120x120</option>
                 </select>
             </td>
             <td width="18">
@@ -149,6 +151,8 @@ class PremiumMap {
         this._preventTW()
         this._inject()
         this._connectFunctions()
+        this._setDefaults()
+        this._checkBeacon()
     }
 
     _preventTW() {
@@ -179,6 +183,41 @@ class PremiumMap {
         $("#minimap_size").change(function() {
             TWMap.resizeMinimap(parseInt($("#minimap_size").val()))
         })
+    }
+
+    _setDefaults() {
+
+        console.log(this.config)
+
+        TWMap.resize(parseInt(this.config.map))
+        TWMap.resizeMinimap(parseInt(this.config.miniMap))
+
+
+        $('#minimap_size option[value="' + this.config.miniMap + '"]').prop('selected', true)
+        $('#map_size option[value="' + this.config.map + '"]').prop('selected', true)
+    }
+
+    _checkBeacon() {
+        var url = new UrlManipulator();
+
+        if (url.getParam("beacon") == 1) {
+
+            let hash = url.getHash().replace("#", "")
+
+            let x = parseInt(hash.split(";")[0] - 1)
+            let y = parseInt(hash.split(";")[1] - 1)
+
+            console.log(x + ";" + y)
+
+            $("div.center_beacon").hide()
+
+            if (!isNaN(x) && !isNaN(y)) {
+                TWMap.focusUserSpecified(x, y)
+            } else {
+                setTimeout(this._checkBeacon, 700)
+            }
+
+        }
     }
 
 }

@@ -70,6 +70,10 @@ class UrlManipulator {
         return this.url.pathname;
     }
 
+    getHash() {
+        return this.url.hash;
+    }
+
     getParam(name) {
         return this.url.searchParams.get(name)
     }

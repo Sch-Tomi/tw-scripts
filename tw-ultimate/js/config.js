@@ -17,6 +17,22 @@ class Config {
         this.config.links = newLinks
     }
 
+    getPremiumMapConfig() {
+        return this.config.premiumMap;
+    }
+
+    setPremiumMapConfig(mapConfig) {
+        this.config.premiumMap = mapConfig
+    }
+
+    getVillages() {
+        return this.config.villages;
+    }
+
+    setVillages(villages) {
+        this.config.villages = villages
+    }
+
     // True = Installed | False = not...
     _checkIsInstalled() {
         return getValue('config') !== null;
@@ -67,6 +83,13 @@ class Config {
                 link: ""
             }
         ];
+
+        this.config.premiumMap = {
+            miniMap: "60x60",
+            map: "13"
+        }
+
+        this.config.villages = []
 
         this.save()
     }
