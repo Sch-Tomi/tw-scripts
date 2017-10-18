@@ -1,3 +1,19 @@
+class AdRemover {
+
+    constructor() {
+
+        this._removePremium()
+
+    }
+
+
+    _removePremium() {
+
+        $("div.premium_account_hint").hide()
+    }
+
+}
+
 class Footer {
 
     constructor(runFunction) {
@@ -316,6 +332,188 @@ class Options {
 
 }
 
+class OverView {
+
+    constructor(config) {
+
+        this.config = config
+        this.OVO = {}
+
+        this.urlMan = new UrlManipulator()
+
+        this.run()
+
+    }
+
+    run() {
+        //MASK
+        $("#content_value").children().each(function() {
+            $(this).hide()
+        })
+        $("#content_value").append('<img style="display: block; margin: 0 auto;" src="http://fc04.deviantart.net/fs70/f/2013/094/8/d/loading_logofinal_by_zegerdon-d60eb1v.gif">')
+
+
+        //Make Object
+        this.makeOverviewOBJ();
+
+        //save Product table
+        let prodTable = $("#production_table").prop('outerHTML')
+
+        //RESET
+        $("#content_value").html("")
+
+        //Add menu
+        this.addOverview_menu()
+
+        //Select And Run
+        $("#content_value img").remove()
+
+        $("#overview_menu > td:first").attr("class", "selected")
+        Overview_Combined();
+        $("#content_value").children().each(function() {
+            $(this).show()
+        })
+
+        VillNumPerPages()
+
+    }
+
+    makeOverviewOBJ() {
+
+        let villages = this.config.villages
+        this.OVO.len = $("#production_table  tr.nowrap").length
+        this.OVO.VDB = {}
+
+        console.log("asd")
+
+        $.each(villages, function(k, v) {
+
+            let id = v.id
+            let cont = v.continent
+
+            let faluHtml = v.nameHtml
+
+            let pointHtml = v.pointHtml
+
+
+            console.log(this)
+            console.log(this.urlMan.getOrigin() + "/game.php?village=" + id + "&screen=place&mode=units")
+
+            // Troops and Buildings and other info
+            $.ajax({
+                url: this.urlMan.getOrigin() + "/game.php?village=" + id + "&screen=place&mode=units",
+                async: false,
+                context: this
+            }).done(function(html) {
+
+                let gd = html.match(/var game_data = {(.*)};/g);
+                gd = gd[0].replace('var game_data = ', '')
+                gd = gd.replace("};", "}")
+
+                let permOBj = JSON.parse(gd)
+
+                let troops = []
+
+                $(html).find("#units_home  tr:last > th").each(function() {
+
+                    if ($(this).index() != 0) {
+                        troops.push($(this).text())
+                    }
+
+                })
+
+                this.OVO.VDB[id] = {
+                    id: permOBj.village.id,
+                    coord: permOBj.village.coord,
+                    continent: cont,
+                    name: permOBj.village.name,
+                    pop: permOBj.village.pop,
+                    pop_max: permOBj.village.pop_max,
+                    storage_max: permOBj.village.storage,
+                    wood: permOBj.village.wood,
+                    stone: permOBj.village.stone,
+                    iron: permOBj.village.iron,
+                    trader_away: permOBj.village.trader_away,
+                    buildings: permOBj.village.buildings,
+                    troops: troops.toString(),
+                    points: pointHtml,
+                    nameHtml: faluHtml
+
+                }
+
+            });
+
+            // trader info
+            $.ajax({
+                url: this.urlMan.getOrigin() + "/game.php?village=" + id + "&screen=market&mode=traders",
+                async: false
+            }).done(function(html) {
+
+                this.OVO.VDB[id].trader = $(html).find("#content_value").text().match(/\d+\/\d+/g)[0]
+
+            });
+
+
+            //Get Barrack Stable Workshop
+            $.ajax({
+                url: this.urlMan.getOrigin() + "/game.php?village=" + id + "&screen=train",
+                async: false
+            }).done(function(html) {
+
+                let military = [false, false, false]
+
+                if ($(html).find("#trainqueue_wrap_barracks").length > 0) {
+
+                    military[0] = true;
+
+                }
+
+                if ($(html).find("#trainqueue_wrap_stable").length > 0) {
+
+                    military[1] = true;
+
+                }
+
+                if ($(html).find("#trainqueue_wrap_garage").length > 0) {
+
+                    military[2] = true;
+
+                }
+
+                this.OVO.VDB[id].militaryRec = military
+
+            });
+
+
+        })
+
+        console.log(OVO)
+    }
+
+    addOverview_menu() {
+
+        OmHtml = '<table width="100%" id="overview_menu" class="vis modemenu"><tbody><tr>\
+            <td style="text-align:center"><a mymode="Combined" href="#">Kombinált </a></td>\
+            <td style="text-align:center"><a mymode="Prod" href="#">Termelés </a></td>\
+            <td style="text-align:center"><a mymode="Build" href="#">Épületek </a></td>\
+            </tr></tbody></table><div id="CONTENT"></div>'
+
+        $("#content_value").prepend(OmHtml)
+
+        $("#overview_menu  a").each(function() {
+
+            $(this).click(function() {
+
+                SwitchSelected($(this).attr("mymode"))
+
+            })
+
+        })
+
+    }
+
+}
+
 class playerStats {
 
     constructor() {
@@ -629,6 +827,65 @@ $("#map_popup").bind("DOMSubtreeModified", function() {
 
 }); */
 
+class TroopStarter {
+
+    constructor() {
+
+        this._addArriveTimeInput()
+
+    }
+
+    _addArriveTimeInput() {
+
+        let input = `<p>Format like 08:01:00:800
+                    <br>
+                    <input id="TWU_arrive" type="text">
+                    <input id="TWU_arrive_submit" class="troop_confirm_go btn btn-attack" type="button" value="Automata Indítás">
+                    </p>`
+
+        $("#content_value").append(input)
+
+        $("#TWU_arrive_submit").on('click', this._setStart.bind(this))
+
+    }
+
+    _setStart() {
+
+        let ms = this._calcDelayMili();
+
+        setTimeout(function() {
+            $("#troop_confirm_go").click()
+        }, ms);
+        //13:24:22:300
+
+        console.log("READY....")
+
+    }
+
+    _calcDelayMili() {
+
+        let travelTime_text = $("#command-data-form table.vis:first tr:eq(2) td:eq(1)").text()
+        let travelTime = moment(travelTime_text, "HH:mm:ss")
+        let arriveTime_text = $("#TWU_arrive").val()
+        let arriveTime = moment(arriveTime_text, "HH:mm:ss:SSS")
+
+        let startTime = arriveTime.subtract({
+            hours: travelTime.get("h"),
+            minutes: travelTime.get("m"),
+            seconds: travelTime.get("s"),
+            milliseconds: travelTime.get("ms")
+        })
+
+        let now = moment()
+        let msToStart = Math.abs(now.diff(startTime));
+
+        return msToStart
+    }
+
+
+
+}
+
 class VillageDB {
 
     constructor(config) {
@@ -642,7 +899,14 @@ class VillageDB {
         this._prevVillage = null
         this._nextVillage = null
 
+        this._prevURL = null
+        this._nextURL = null
+
         this._init()
+
+        this._prevArrow = "https://raw.githubusercontent.com/Sch-Tomi/tw-scripts/master/tw-ultimate/assets/img/arrow-left-icon.png"
+        this._nextArrow = "https://raw.githubusercontent.com/Sch-Tomi/tw-scripts/master/tw-ultimate/assets/img/arrow-right-icon.png"
+        this._downArrow = "https://raw.githubusercontent.com/Sch-Tomi/tw-scripts/master/tw-ultimate/assets/img/arrow-down-icon.png"
 
     }
 
@@ -675,19 +939,8 @@ class VillageDB {
     }
 
     includeNavigator() {
-
-        let prevURL = this._url.setParam("village", this._prevVillage)
-        let nextURL = this._url.setParam("village", this._nextVillage)
-
-        let html = `<a href="` + this.prevURL + `">
-                    <img src="">
-                </a>
-                <a href="` + this.nextURL + `">
-                    <img src="' + IMG_Next + '">
-                </a>
-                <a id="villListButt" href="#"><img src="' + IMG_Down + '"></a>`
-
-        $("#menu_row2 > td:eq(1)").append(html)
+        this._addSwitch()
+        this._addKeyboardSwitch()
     }
 
     _init() {
@@ -716,7 +969,38 @@ class VillageDB {
 
         }
 
+        this._prevURL = this._url.setParam("village", this._prevVillage)
+        this._nextURL = this._url.setParam("village", this._nextVillage)
 
+
+    }
+
+    _addSwitch() {
+        let html = `<a href="` + this._prevURL + `">
+                        <img src="` + this._prevArrow + `">
+                    </a>
+                    <a href="` + this._nextURL + `">
+                        <img src="` + this._nextArrow + `">
+                    </a>
+                    <a id="villListButt" href="#"><img src="` + this._downArrow + `"></a>`
+
+        $("#menu_row2 > td:eq(1)").append(html)
+    }
+
+    _addKeyboardSwitch() {
+
+        $('body').keydown($.proxy(function(e) {
+            var target = e.target.tagName.toLowerCase();
+            if (target != "input" && target != "textarea") {
+                if (e.keyCode == 65) {
+                    // press a
+                    window.location = this._prevURL
+                } else if (e.keyCode == 68) {
+                    // press d
+                    window.location = this._nextURL
+                }
+            }
+        }, this));
     }
 
 }

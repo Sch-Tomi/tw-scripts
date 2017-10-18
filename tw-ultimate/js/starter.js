@@ -18,7 +18,13 @@ if (isLogged) {
             break;
         case 'overview_villages':
             villageDB.getVillages()
+
+            //new OverView(config)
             break;
+        case 'place':
+            if (url.getParam('try') == "confirm") {
+                new TroopStarter();
+            }
     }
 
     // Always run!!
@@ -26,4 +32,8 @@ if (isLogged) {
     new Footer(options.open)
 
     villageDB.includeNavigator()
+
+
+    //Finally removes Ads
+    new AdRemover()
 }
